@@ -1,0 +1,83 @@
+qcloud:
+  serverHost: asuis.mynatapp.cc
+  authServerUrl: http://118.89.110.246/mina_auth/
+  tunnelServerUrl: https://qgzugymk.ws.qcloud.la
+  tunnelSignatureKey: 41d71919294363b3736b5eace1c76a07
+  networkTimeout: 30000
+spring:
+  application:
+    name: user-server
+#  cloud:
+#    consul:
+#      host: 47.94.210.233
+#      port: 8500
+#      discovery:
+#        health-check-interval: 15s
+#        tags: user-server
+#        instanceId: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
+  datasource:
+    url: jdbc:mysql://sh-cdb-pfz0ikp9.sql.tencentcdb.com:63434/real
+    username: root
+    password: HJcgk2QTT57t
+    driver-class-name: com.mysql.jdbc.Driver
+     # Druid 配置
+    druid:
+      # 连接池配置
+      initial-size: 1
+      max-active: 20
+      max-wait: 60000
+      min-idle: 1
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: select 'x'
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: true
+      max-open-prepared-statements: 20
+      max-pool-prepared-statement-per-connection-size: 20
+      filters: stat
+
+      # 监控配置
+      # WebStatFilter配置，说明请参考Druid Wiki，配置_配置WebStatFilter
+#      spring.datasource.druid.web-stat-filter.enabled= #是否启用StatFilter默认值true
+#      spring.datasource.druid.web-stat-filter.url-pattern=
+#      spring.datasource.druid.web-stat-filter.exclusions=
+#      spring.datasource.druid.web-stat-filter.session-stat-enable=
+#      spring.datasource.druid.web-stat-filter.session-stat-max-count=
+#      spring.datasource.druid.web-stat-filter.principal-session-name=
+#      spring.datasource.druid.web-stat-filter.principal-cookie-name=
+#      spring.datasource.druid.web-stat-filter.profile-enable=
+
+      # StatViewServlet配置，说明请参考Druid Wiki，配置_StatViewServlet配置
+#      spring.datasource.druid.stat-view-servlet.enabled= #是否启用StatViewServlet默认值true
+#      spring.datasource.druid.stat-view-servlet.url-pattern=
+#      spring.datasource.druid.stat-view-servlet.reset-enable=
+#      spring.datasource.druid.stat-view-servlet.login-username=
+#      spring.datasource.druid.stat-view-servlet.login-password=
+#      spring.datasource.druid.stat-view-servlet.allow=
+#      spring.datasource.druid.stat-view-servlet.deny=
+
+      # Spring监控配置，说明请参考Druid Github Wiki，配置_Druid和Spring关联监控配置
+#      spring.datasource.druid.aop-patterns= # Spring监控AOP切入点，如x.y.z.service.*,配置多个英文逗号分隔
+  redis:
+    jedis:
+      pool:
+        max-idle: 8
+        max-active: 8
+        max-wait: -1ms
+        min-idle: 0
+    database: 1
+    host: 47.94.210.233
+server:
+  port: 8090
+mybatis:
+  type-aliases-package: com.real.userserver.user.model
+  mapper-locations: classpath:mapper/*.xml
+  config-location: classpath:mybatis-cfg.xml
+eureka:
+  client:
+    serverUrl:
+      defaultZone: 'http://localhost:3030/eureka/'
+  instance:
+    hostname: localhost
