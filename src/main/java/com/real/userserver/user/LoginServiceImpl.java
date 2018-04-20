@@ -148,18 +148,19 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public Result<LoginResult> check(HttpServletRequest request,HttpServletResponse response) {
+    public Result<OurUserInfo> check(HttpServletRequest request,HttpServletResponse response) {
         com.qcloud.weapp.authorization.LoginService loginService = new com.qcloud.weapp.authorization.LoginService(request,response);
+        OurUserInfo ourUserInfo = new OurUserInfo();
         UserInfo userInfo = null;
         try {
             userInfo = loginService.check();
+            ourUserInfo = userDao.getOurUserInfoByOpenId(userInfo.getOpenId());
         } catch (LoginServiceException e) {
             logger.info("wx check fail",e.getMessage());
         } catch (ConfigurationException e) {
             logger.error("qcloud 配置异常",e.getMessage());
         }
-        LoginResult result = new LoginResult(userInfo);
-        return makeLoginResult(ResultCode.SUCC,"check successful",result);
+        return new Result<>(ResultCode.SUCC, ourUserInfo, "check successful");
     }
 
     @Override

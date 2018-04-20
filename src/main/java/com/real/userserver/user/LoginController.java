@@ -54,15 +54,13 @@ public class LoginController {
         return loginService.checkPc(token);
     }
 
-
     @RequestMapping(value = "/wx/check",method = RequestMethod.GET)
     @ApiOperation(value = "微信小程序登录检查")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "WX_HEADER_ID",value = "wafer2登录获得的id",type = "header"),
             @ApiImplicitParam(name = "WX_HEADER_SKEY",value = "wafer2登录获得的SKEY",type = "header")
     })
-    public Result<LoginResult> wxLoginCheck(HttpServletRequest request,HttpServletResponse response){
+    public Result<OurUserInfo> wxLoginCheck(HttpServletRequest request,HttpServletResponse response){
         return loginService.check(request,response);
     }
-
 }

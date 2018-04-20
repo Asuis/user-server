@@ -1,5 +1,6 @@
 package com.real.userserver.user.dao;
 
+import com.real.userserver.user.dto.OurUserInfo;
 import com.real.userserver.user.model.UserAuth;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -16,4 +17,5 @@ public interface UserDao {
      * */
     public UserAuth isHaveUserAuthByOpenId(String openId);
 
+    public OurUserInfo getOurUserInfoByOpenId(String openId);
 }

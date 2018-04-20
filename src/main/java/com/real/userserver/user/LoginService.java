@@ -33,7 +33,7 @@ public interface LoginService {
      * */
     public Result<OurUserInfo> checkPc(String token);
 
-    public Result<LoginResult> check(HttpServletRequest request,HttpServletResponse response);
+    public Result<OurUserInfo> check(HttpServletRequest request,HttpServletResponse response);
     /**
      * 更新pc用户登录token
      * */
