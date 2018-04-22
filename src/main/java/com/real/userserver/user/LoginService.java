@@ -1,13 +1,11 @@
 package com.real.userserver.user;
 
 import com.real.userserver.dto.Result;
-import com.real.userserver.user.dto.LoginResult;
-import com.real.userserver.user.dto.OurUserInfo;
-import com.real.userserver.user.dto.PcLoginResult;
-import com.real.userserver.user.dto.RefreshToken;
+import com.real.userserver.user.dto.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * @author asuis
@@ -38,4 +36,6 @@ public interface LoginService {
      * 更新pc用户登录token
      * */
     public Result<RefreshToken> refreshToken(String token);
+
+    public Result<SimpleUserInfo> getUserSimpleInfo(Integer uid);
 }

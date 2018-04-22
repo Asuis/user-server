@@ -8,10 +8,7 @@ import com.real.userserver.dto.ResultCode;
 import com.real.userserver.user.dao.UserAuthMapper;
 import com.real.userserver.user.dao.UserDao;
 import com.real.userserver.user.dao.UserDetailMapper;
-import com.real.userserver.user.dto.LoginResult;
-import com.real.userserver.user.dto.OurUserInfo;
-import com.real.userserver.user.dto.PcLoginResult;
-import com.real.userserver.user.dto.RefreshToken;
+import com.real.userserver.user.dto.*;
 import com.real.userserver.user.mapper.UserInfoMapper;
 import com.real.userserver.user.model.UserAuth;
 import com.real.userserver.user.model.UserDetail;
@@ -52,14 +49,18 @@ public class LoginServiceImpl implements LoginService {
 
     private final static Logger logger = LoggerFactory.getLogger(LoginServiceImpl.class);
 
-    @Autowired
-    private UserDetailMapper userDetailMapper;
+    private final UserDetailMapper userDetailMapper;
+
+    private final UserAuthMapper userAuthMapper;
+
+    private final UserDao userDao;
 
     @Autowired
-    private UserAuthMapper userAuthMapper;
-
-    @Autowired
-    private UserDao userDao;
+    public LoginServiceImpl(UserDetailMapper userDetailMapper, UserAuthMapper userAuthMapper, UserDao userDao) {
+        this.userDetailMapper = userDetailMapper;
+        this.userAuthMapper = userAuthMapper;
+        this.userDao = userDao;
+    }
 
     @Override
     public Result<LoginResult> login(HttpServletRequest request, HttpServletResponse response) {
@@ -180,6 +181,11 @@ public class LoginServiceImpl implements LoginService {
             result.setMsg("登录失败，请重新登录");
         }
         return result;
+    }
+
+    @Override
+    public Result<SimpleUserInfo> getUserSimpleInfo(Integer uid) {
+        return null;
     }
 
     /**
