@@ -2,11 +2,7 @@ package com.real.userserver.user.dao;
 
 import com.real.userserver.user.model.RoleU;
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
 
-/**
- * @author asuis
- */
 @Mapper
 public interface RoleUMapper {
     /**

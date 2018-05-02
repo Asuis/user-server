@@ -155,9 +155,17 @@
 			<version>2.1</version>
 		</dependency>
 
+		<!--pagehelper-->
 		<dependency>
 			<groupId>com.github.pagehelper</groupId>
-			<artifactId>pagehelper</artifactId>
+			<artifactId>pagehelper-spring-boot-starter</artifactId>
+			<version>1.2.3</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.mybatis.spring.boot</groupId>
+					<artifactId>mybatis-spring-boot-starter</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 	</dependencies>

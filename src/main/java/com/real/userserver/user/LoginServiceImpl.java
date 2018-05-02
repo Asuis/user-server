@@ -220,6 +220,7 @@ public class LoginServiceImpl implements LoginService {
             try {
                 UserAuth userAuth = new UserAuth();
                 // WX 为表示认证类型为小程序登录 与桌面程序认证分开
+                userAuth.setUserId(userDetail.getUserId());
                 userAuth.setIdType("WX");
                 userAuth.setAuthAccount(userInfo.getOpenId());
                 userAuth.setLastLoginTime(getCurrentTime());
