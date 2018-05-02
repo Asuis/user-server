@@ -16,9 +16,10 @@ import com.real.userserver.user.utils.JwtUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
@@ -182,10 +183,21 @@ public class LoginServiceImpl implements LoginService {
         }
         return result;
     }
-
+    @Cacheable(cacheNames = "UserSimpleInfo",key = "#openId")
     @Override
-    public Result<SimpleUserInfo> getUserSimpleInfo(Integer uid) {
-        return null;
+    public Result<SimpleUserInfo> getUserSimpleInfo(String openId) {
+        logger.info("缓存simpleUserinfo,key="+openId);
+        Result<SimpleUserInfo> result = new Result<>();
+        try {
+            SimpleUserInfo simpleUserInfo = userDao.getSimpleUserInfo(openId);
+            result.setCode(ResultCode.SUCC);
+            result.setData(simpleUserInfo);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setCode(ResultCode.FAIL);
+            result.setMsg("error");
+        }
+        return result;
     }
 
     /**
@@ -213,7 +225,7 @@ public class LoginServiceImpl implements LoginService {
                 userAuth.setLastLoginTime(getCurrentTime());
                 userAuthMapper.insert(userAuth);
             } catch (Exception e) {
-                logger.warn("插入用户授权信息失败",e.getMessage());
+                logger.warn("插入用户授权信息失败:",e);
                 return false;
             }
         } else {

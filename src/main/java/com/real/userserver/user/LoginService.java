@@ -37,5 +37,5 @@ public interface LoginService {
      * */
     public Result<RefreshToken> refreshToken(String token);
 
-    public Result<SimpleUserInfo> getUserSimpleInfo(Integer uid);
+    public Result<SimpleUserInfo> getUserSimpleInfo(String openId);
 }

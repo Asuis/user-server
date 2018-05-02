@@ -39,5 +39,11 @@
         FROM user_detail
         LIMIT 1
     </select>
+    <select id="getSimpleUserInfo" resultType="com.real.userserver.user.dto.SimpleUserInfo">
+        SELECT user_detail.user_id,user_detail.nick_name,user_detail.avatar_url
+        FROM user_detail,user_auth
+        WHERE user_detail.user_id = user_auth.user_id
+        AND id_type = 'WX' AND auth_account = #{openId,jdbcType=VARCHAR}
+    </select>
 
 </mapper>

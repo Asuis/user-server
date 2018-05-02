@@ -18,8 +18,12 @@ import javax.servlet.http.HttpServletResponse;
 @Api(description = "登录Api")
 public class LoginController {
 
+    private final com.real.userserver.user.LoginService loginService;
+
     @Autowired
-    com.real.userserver.user.LoginService loginService;
+    public LoginController(LoginService loginService) {
+        this.loginService = loginService;
+    }
 
     @RequestMapping(value = "/wx/login",method = RequestMethod.GET)
     @ApiOperation(value = "微信小程序登录",notes = "此接口直接使用微信提供的sdk即可调研，下面的参数均在header中获取")
