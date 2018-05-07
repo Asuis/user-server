@@ -1,5 +1,6 @@
 package com.real.userserver.user;
 
+import com.qcloud.weapp.authorization.UserInfo;
 import com.real.userserver.dto.Result;
 import com.real.userserver.user.dto.*;
 
@@ -38,4 +39,6 @@ public interface LoginService {
     public Result<RefreshToken> refreshToken(String token);
 
     public Result<SimpleUserInfo> getUserSimpleInfo(String openId);
+
+    public Result<UserInfo> checkWx(HttpServletRequest request,HttpServletResponse response);
 }

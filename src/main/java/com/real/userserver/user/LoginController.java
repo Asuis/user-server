@@ -1,5 +1,6 @@
 package com.real.userserver.user;
 
+import com.qcloud.weapp.authorization.UserInfo;
 import com.real.userserver.dto.Result;
 import com.real.userserver.user.dto.LoginResult;
 import com.real.userserver.user.dto.OurUserInfo;
@@ -67,4 +68,15 @@ public class LoginController {
     public Result<OurUserInfo> wxLoginCheck(HttpServletRequest request,HttpServletResponse response){
         return loginService.check(request,response);
     }
+
+    @RequestMapping(value = "/wx/user",method = RequestMethod.GET)
+    @ApiOperation(value = "微信小程序登录检查")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "WX_HEADER_ID",value = "wafer2登录获得的id",type = "header"),
+            @ApiImplicitParam(name = "WX_HEADER_SKEY",value = "wafer2登录获得的SKEY",type = "header")
+    })
+    public Result<UserInfo> wxUser(HttpServletRequest request, HttpServletResponse response){
+        return loginService.checkWx(request,response);
+    }
+
 }

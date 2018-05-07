@@ -200,6 +200,20 @@ public class LoginServiceImpl implements LoginService {
         return result;
     }
 
+    @Override
+    public Result<UserInfo> checkWx(HttpServletRequest request, HttpServletResponse response) {
+        com.qcloud.weapp.authorization.LoginService loginService = new com.qcloud.weapp.authorization.LoginService(request,response);
+        UserInfo userInfo = null;
+        try {
+            userInfo = loginService.check();
+        } catch (LoginServiceException e) {
+            logger.info("wx check fail",e.getMessage());
+        } catch (ConfigurationException e) {
+            logger.error("qcloud 配置异常",e.getMessage());
+        }
+        return new Result<>(ResultCode.SUCC, userInfo, "check successful");
+    }
+
     /**
      * 用于保存userInfo信息至数据库
      * */
