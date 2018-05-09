@@ -5,6 +5,7 @@ import com.qcloud.weapp.authorization.LoginServiceException;
 import com.qcloud.weapp.authorization.UserInfo;
 import com.real.userserver.dto.Result;
 import com.real.userserver.dto.ResultCode;
+import com.real.userserver.user.aop.RedisLockable;
 import com.real.userserver.user.dao.UserAuthMapper;
 import com.real.userserver.user.dao.UserDao;
 import com.real.userserver.user.dao.UserDetailMapper;
@@ -217,37 +218,39 @@ public class LoginServiceImpl implements LoginService {
     /**
      * 用于保存userInfo信息至数据库
      * */
-    private boolean save(UserInfo userInfo){
-        UserAuth flag = isHaveUser(userInfo.getOpenId());
-        //如果是第一次登陆
-        if (flag==null) {
-            UserDetail userDetail = UserInfoMapper.USER_INFO_MAPPER.userInfoToUserDetail(userInfo);
-            userDetail.setCreateTime(getCurrentTime());
-            userDetail.setUpdateTime(getCurrentTime());
-            try {
-                userDetailMapper.insert(userDetail);
-            } catch (Exception e){
-                logger.warn("插入用户信息失败",e.getMessage());
-                return false;
-            }
-
-            try {
-                UserAuth userAuth = new UserAuth();
-                // WX 为表示认证类型为小程序登录 与桌面程序认证分开
-                userAuth.setUserId(userDetail.getUserId());
-                userAuth.setIdType("WX");
-                userAuth.setAuthAccount(userInfo.getOpenId());
-                userAuth.setLastLoginTime(getCurrentTime());
-                userAuthMapper.insert(userAuth);
-            } catch (Exception e) {
-                logger.warn("插入用户授权信息失败:",e);
-                return false;
-            }
-        } else {
-            //不是第一次登录
-            flag.setLastLoginTime(getCurrentTime());
-            userAuthMapper.updateByPrimaryKeySelective(flag);
-        }
+    @RedisLockable(key = "#userInfo.getOpenId()",expiration = 120)
+    @Override
+    public boolean save(UserInfo userInfo){
+//        UserAuth flag = isHaveUser(userInfo.getOpenId());
+//        //如果是第一次登陆
+//        if (flag==null) {
+//            UserDetail userDetail = UserInfoMapper.USER_INFO_MAPPER.userInfoToUserDetail(userInfo);
+//            userDetail.setCreateTime(getCurrentTime());
+//            userDetail.setUpdateTime(getCurrentTime());
+//            try {
+//                userDetailMapper.insert(userDetail);
+//            } catch (Exception e){
+//                logger.warn("插入用户信息失败",e.getMessage());
+//                return false;
+//            }
+//
+//            try {
+//                UserAuth userAuth = new UserAuth();
+//                // WX 为表示认证类型为小程序登录 与桌面程序认证分开
+//                userAuth.setUserId(userDetail.getUserId());
+//                userAuth.setIdType("WX");
+//                userAuth.setAuthAccount(userInfo.getOpenId());
+//                userAuth.setLastLoginTime(getCurrentTime());
+//                userAuthMapper.insert(userAuth);
+//            } catch (Exception e) {
+//                logger.warn("插入用户授权信息失败:",e);
+//                return false;
+//            }
+//        } else {
+//            //不是第一次登录
+//            flag.setLastLoginTime(getCurrentTime());
+//            userAuthMapper.updateByPrimaryKeySelective(flag);
+//        }
         return true;
     }
     /**根据weixin openid判断是否是第一次登录**/

@@ -6,7 +6,6 @@ import com.real.userserver.user.dto.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 
 /**
  * @author asuis
@@ -41,4 +40,6 @@ public interface LoginService {
     public Result<SimpleUserInfo> getUserSimpleInfo(String openId);
 
     public Result<UserInfo> checkWx(HttpServletRequest request,HttpServletResponse response);
+
+    public boolean save(UserInfo userInfo);
 }
