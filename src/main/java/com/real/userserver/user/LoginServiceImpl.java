@@ -159,9 +159,9 @@ public class LoginServiceImpl implements LoginService {
             userInfo = loginService.check();
             ourUserInfo = userDao.getOurUserInfoByOpenId(userInfo.getOpenId());
         } catch (LoginServiceException e) {
-            logger.info("wx check fail",e.getMessage());
+            logger.info("wx check fail",e);
         } catch (ConfigurationException e) {
-            logger.error("qcloud 配置异常",e.getMessage());
+            logger.error("qcloud 配置异常",e);
         }
         return new Result<>(ResultCode.SUCC, ourUserInfo, "check successful");
     }

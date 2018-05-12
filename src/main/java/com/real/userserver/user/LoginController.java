@@ -2,7 +2,6 @@ package com.real.userserver.user;
 
 import com.qcloud.weapp.authorization.UserInfo;
 import com.real.userserver.dto.Result;
-import com.real.userserver.user.dto.LoginResult;
 import com.real.userserver.user.dto.OurUserInfo;
 import com.real.userserver.user.dto.PcLoginResult;
 import io.swagger.annotations.*;
