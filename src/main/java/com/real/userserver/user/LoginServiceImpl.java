@@ -242,6 +242,7 @@ public class LoginServiceImpl implements LoginService {
                 userAuth.setAuthAccount(userInfo.getOpenId());
                 userAuth.setLastLoginTime(getCurrentTime());
                 userAuthMapper.insert(userAuth);
+
             } catch (Exception e) {
                 logger.warn("插入用户授权信息失败:",e);
                 return false;
